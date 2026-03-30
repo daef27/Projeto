@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>🤝 Parceiros</h2>
+
+{% if parceiros %}
+<div class="parceiros">
+    {% for parceiro in parceiros %}
+    <div class="card">
+        {% if parceiro.logo %}
+        <img src="{{ parceiro.logo.url }}" width="150">
+        {% endif %}
+        
+        <h3>{{ parceiro.nome }}</h3>
+        
+        {% if parceiro.link %}
+        <a href="{{ parceiro.link }}" target="_blank">
+            Visitar
+        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<p>Nenhum parceiro cadastrado ainda.</p>
+{% endif %}
+
+{% endblock %}
