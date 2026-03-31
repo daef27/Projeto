@@ -18,16 +18,11 @@ DEBUG = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.github.dev",
-    "https://*.app.github.dev",
-    "https://*.preview.app.github.dev",
-    "http://localhost:8000",
-    "https://localhost:8000",
-]
+ALLOWED_HOSTS = []
 
-ALLOWED_HOSTS = [
-    "*"
+CSRF_TRUSTED_ORIGINS = [
+    "https://assga.com",
+    "https://www.assga.com",
 ]
 
 
