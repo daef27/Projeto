@@ -14,15 +14,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = 'django-insecure-r*jt0^_5gcauseda#=g##d%+)y5l$cxwhr85n6tuiypvpyqui_'
 
-DEBUG = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+DEBUG = False
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "assga.com",
+    "www.assga.com",
+    "seu-subdominio.onrender.com"  # se usar URL Render antes de apontar domínio
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://assga.com",
     "https://www.assga.com",
+    "https://seu-subdominio.onrender.com",
 ]
 
 
