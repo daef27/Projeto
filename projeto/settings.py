@@ -72,35 +72,37 @@ TEMPLATES = [
 WSGI_APPLICATION = 'projeto.wsgi.application'
 
 # ----------------------
-# DATABASE (PostgreSQL)
+# DATABASE
 # ----------------------
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get("DB_NAME"),
-        'USER': os.environ.get("DB_USER"),
-        'PASSWORD': os.environ.get("DB_PASSWORD"),
-        'HOST': os.environ.get("DB_HOST"),
-        'PORT': os.environ.get("DB_PORT", "5432"),
+if DEBUG:
+    # SQLite temporário para Vercel/dev
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/tmp/db.sqlite3',
+        }
     }
-}
+else:
+    # PostgreSQL em produção
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get("DB_NAME"),
+            'USER': os.environ.get("DB_USER"),
+            'PASSWORD': os.environ.get("DB_PASSWORD"),
+            'HOST': os.environ.get("DB_HOST"),
+            'PORT': os.environ.get("DB_PORT", "5432"),
+        }
+    }
 
 # ----------------------
 # PASSWORD VALIDATION
 # ----------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # ----------------------
@@ -125,10 +127,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ----------------------
-# MEDIA FILES (uploads temporários no /tmp)
+# MEDIA FILES (temporários)
 # ----------------------
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # opcional: trocar para S3/Cloudinary em prod
+MEDIA_ROOT = '/tmp/media'  # temporário em Vercel
 
 # ----------------------
 # DEFAULT PK FIELD
@@ -136,8 +138,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # opcional: trocar para S3/Cloudin
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ----------------------
-# CSRF (opcional)
+# CSRF TRUSTED ORIGINS
 # ----------------------
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.vercel.app",
-]
+CSRF_TRUSTED_ORIGINS = ["https://*.vercel.app"]
