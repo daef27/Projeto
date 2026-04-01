@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ----------------------
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-default")
 DEBUG = os.environ.get("DEBUG", "True") == "True"
-ALLOWED_HOSTS = ["*"]  # Para produção: ['.vercel.app', 'meusite.com']
+ALLOWED_HOSTS = ["*"]  # Em produção: ['.vercel.app', 'meusite.com']
 
 # ----------------------
 # INSTALLED APPS
@@ -73,7 +73,7 @@ WSGI_APPLICATION = "projeto.wsgi.application"
 # DATABASE
 # ----------------------
 if DEBUG:
-    # SQLite temporário para Vercel/dev
+    # Desenvolvimento local com SQLite
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -81,7 +81,7 @@ if DEBUG:
         }
     }
 else:
-    # PostgreSQL em produção
+    # Produção no Vercel com PostgreSQL remoto
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -92,7 +92,6 @@ else:
             "PORT": os.environ.get("DB_PORT", "5432"),
         }
     }
-MEDIA_ROOT = '/tmp/media'  # uploads temporários
 
 # ----------------------
 # PASSWORD VALIDATION
@@ -110,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Sao_Paulo"
 USE_I18N = True
-
 USE_TZ = True
 
 # ----------------------
