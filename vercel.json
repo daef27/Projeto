@@ -1,16 +1,16 @@
 {
-  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
-  "outputDirectory": "staticfiles",
-  "builds": [
-    {
-      "src": "projeto/wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "projeto/wsgi.py"
-    }
-  ]
+"buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
+"outputDirectory": "staticfiles",
+"builds": [
+{
+"src": "associacao/wsgi.py",
+"use": "@vercel/python"
+}
+],
+"routes": [
+{
+"src": "/(.*)",
+"dest": "associacao/wsgi.py"
+}
+]
 }
