@@ -19,6 +19,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "assga.com",
     "www.assga.com",
+    "projeto-alpha-weld.vercel.app"
     ".vercel.app",
     "localhost",
     "127.0.0.1",
