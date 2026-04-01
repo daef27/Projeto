@@ -16,14 +16,7 @@ SECRET_KEY = 'django-insecure-r*jt0^_5gcauseda#=g##d%+)y5l$cxwhr85n6tuiypvpyqui_
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    "assga.com",
-    "www.assga.com",
-    "projeto-alpha-weld.vercel.app",
-    ".vercel.app",
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = ["*"]
 
 
 CSRF_TRUSTED_ORIGINS = [
