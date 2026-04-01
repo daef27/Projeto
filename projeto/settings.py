@@ -4,6 +4,7 @@ Django settings prontos para Vercel
 
 import os
 from pathlib import Path
+import dj_database_url
 
 # ----------------------
 # BASE DIR
@@ -14,14 +15,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ----------------------
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-default")
-DEBUG = os.environ.get("DEBUG", "True") == "True"
-ALLOWED_HOSTS = ["*"]  # Em produção: ['.vercel.app', 'meusite.com']
+
+DEBUG = True
+
+ALLOWED_HOSTS = [
+    ".vercel.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 # ----------------------
 # INSTALLED APPS
 # ----------------------
 INSTALLED_APPS = [
-    # Django core
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -29,7 +35,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Seus apps
     "socios",
 ]
 
@@ -38,20 +43,26 @@ INSTALLED_APPS = [
 # ----------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Serve arquivos estáticos
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 # ----------------------
-# URLS & TEMPLATES
+# URLS
 # ----------------------
 ROOT_URLCONF = "projeto.urls"
 
+# ----------------------
+# TEMPLATES
+# ----------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -70,44 +81,22 @@ TEMPLATES = [
 WSGI_APPLICATION = "projeto.wsgi.application"
 
 # ----------------------
-# DATABASE
+# DATABASE (Neon)
 # ----------------------
-if DEBUG:
-    # Desenvolvimento local com SQLite
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
-    # Produção no Vercel com PostgreSQL remoto
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("DB_NAME"),
-            "USER": os.environ.get("DB_USER"),
-            "PASSWORD": os.environ.get("DB_PASSWORD"),
-            "HOST": os.environ.get("DB_HOST"),
-            "PORT": os.environ.get("DB_PORT", "5432"),
-        }
-    }
+DATABASES = {
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
 # ----------------------
-# PASSWORD VALIDATION
-# ----------------------
-AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
-
-# ----------------------
-# INTERNATIONALIZATION
+# LANGUAGE
 # ----------------------
 LANGUAGE_CODE = "pt-br"
+
 TIME_ZONE = "America/Sao_Paulo"
+
 USE_I18N = True
 USE_TZ = True
 
@@ -115,22 +104,36 @@ USE_TZ = True
 # STATIC FILES
 # ----------------------
 STATIC_URL = "/static/"
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ----------------------
-# MEDIA FILES (temporários em Vercel)
+# MEDIA FILES
 # ----------------------
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/tmp/media"  # temporário, não persistente
+MEDIA_ROOT = "/tmp/media"
 
 # ----------------------
-# CSRF TRUSTED ORIGINS
+# LOGIN ADMIN
 # ----------------------
-CSRF_TRUSTED_ORIGINS = ["https://*.vercel.app"]
+LOGIN_URL = "/admin/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # ----------------------
-# DEFAULT PK FIELD
+# CSRF
+# ----------------------
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
+]
+
+# ----------------------
+# DEFAULT PK
 # ----------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
