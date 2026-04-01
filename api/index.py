@@ -1,7 +1,7 @@
 import os
 import sys
 
-# Adiciona a raiz do projeto ao sys.path
+# Adiciona raiz do projeto ao sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 
 # Configura Django
